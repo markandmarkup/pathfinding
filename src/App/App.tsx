@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import GridContainer from './GridContainer/GridContainer';
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
         <button type="button">Run &gt;&gt;</button>
       </div>
 
+      <GridContainer rows={5} cols={5} />
       
     </div>
   );
