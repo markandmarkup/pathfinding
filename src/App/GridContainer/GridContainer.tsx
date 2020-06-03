@@ -1,6 +1,7 @@
 import * as React from 'react';
 import GridSquare from './GridSquare/GridSquare';
 import './GridContainer.css';
+import { convertArrayTo2D } from '../../Utils';
 
 interface GridContainerProps {
     rows: number;
@@ -18,23 +19,17 @@ export default class GridContainer extends React.Component<GridContainerProps, G
     constructor(props) {
         super(props);
 
-        const cols = this.props.cols;
-        const rows = this.props.rows;
-        const gridArray = new Array(cols * rows).fill('neutral');
+        const gridArray = new Array(this.props.cols * this.props.rows).fill('neutral');
 
         this.state = {
             "cols": this.props.cols,
             "rows": this.props.rows,
             "gridArray": gridArray
         }
+
+        console.log(convertArrayTo2D(gridArray, this.state.cols, this.state.rows));
     }
-
-    // renderSquares(cols: number, rows: number) {
-    //     const arrayInit = Array(cols * rows);
-    //     const blocktypeArray = arrayInit.map()
-        
-    // }
-
+    
     render() {
         return (
             <div className="gridContainer">
