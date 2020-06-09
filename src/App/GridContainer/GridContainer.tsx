@@ -6,6 +6,7 @@ import { convertArrayTo2D } from '../../Utils';
 interface GridContainerProps {
     rows: number;
     cols: number;
+    gridBuildMode: string;
 }
 
 interface GridContainerState {
@@ -24,13 +25,21 @@ export default class GridContainer extends React.Component<GridContainerProps, G
         this.state = {
             "cols": this.props.cols,
             "rows": this.props.rows,
-            "gridArray": gridArray
+            "gridArray": gridArray,
         }
     }
     
-    updateGridSquare = (index) : void => {
+    updateGrid = (index) : void => {
         let updatedGridArray: Array<any> = this.state.gridArray;
-        updatedGridArray[index] = "clicked";
+
+        if (this.props.gridBuildMode === "start" || this.props.gridBuildMode === "end") {
+            updatedGridArray = updatedGridArray.map((gridSquare) => {
+                return gridSquare === this.props.gridBuildMode ? "neutral" : gridSquare;
+            })
+        }
+        
+        updatedGridArray[index] = this.props.gridBuildMode;
+
         this.setState({
             gridArray: updatedGridArray
         });
@@ -45,7 +54,7 @@ export default class GridContainer extends React.Component<GridContainerProps, G
                         index={ index } 
                         blockType={ blockType } 
                         size={ Math.floor((600 / this.state.cols) - 2) }
-                        handleClick={ this.updateGridSquare }/>
+                        handleClick={ this.updateGrid }/>
                 ))
                 }
             </div>

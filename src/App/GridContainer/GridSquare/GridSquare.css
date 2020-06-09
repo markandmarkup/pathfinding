@@ -1,3 +1,16 @@
 .gridSquare {
     background-color: #fff;
 }
+
+.start {
+    background-color: #6495ed;
+}
+
+.end {
+    background-color: #3cb371;
+}
+
+.block {
+    background-color: #5e5e5e;
+    color: #fff;
+}
