@@ -4,6 +4,8 @@ import './GridSquare.css';
 interface GridSquareProps {
     size: number;
     blockType: string;
+    index: number;
+    handleClick: Function;
 }
 
 export default class GridSquare extends React.Component<GridSquareProps>
@@ -11,13 +13,14 @@ export default class GridSquare extends React.Component<GridSquareProps>
     state = {
         //squares can be one of eight block types: neutral, start, end, block,
         // pathUp, pathRight, pathDown, pathLeft
-        "blockType": this.props.blockType
+        "blockType": this.props.blockType,
+        "index": this.props.index
     }
 
     render() {
         return (
-            <div className="gridSquare" style={{width: this.props.size + "px", height: this.props.size + "px"}}>
-                
+            <div className="gridSquare" style={{width: this.props.size + "px", height: this.props.size + "px"}} onClick={() => this.props.handleClick(this.state.index)}>
+                { this.props.blockType }
             </div>
         )
     }

@@ -26,15 +26,26 @@ export default class GridContainer extends React.Component<GridContainerProps, G
             "rows": this.props.rows,
             "gridArray": gridArray
         }
-
-        console.log(convertArrayTo2D(gridArray, this.state.cols, this.state.rows));
     }
     
+    updateGridSquare = (index) : void => {
+        let updatedGridArray: Array<any> = this.state.gridArray;
+        updatedGridArray[index] = "clicked";
+        this.setState({
+            gridArray: updatedGridArray
+        });
+    }
+
     render() {
         return (
             <div className="gridContainer">
                 {this.state.gridArray.map((blockType, index) => (
-                    <GridSquare key={ index } blockType={ blockType } size={ Math.floor((600 / this.state.cols) - 2) }/>
+                    <GridSquare 
+                        key={ index } 
+                        index={ index } 
+                        blockType={ blockType } 
+                        size={ Math.floor((600 / this.state.cols) - 2) }
+                        handleClick={ this.updateGridSquare }/>
                 ))
                 }
             </div>
