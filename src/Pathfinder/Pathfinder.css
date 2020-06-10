@@ -16,6 +16,13 @@
   margin: 0 10px 10px;
 }
 
+.runControls button {
+  display: inline-block;
+  height: 1.6em;
+  width: 80px;
+  margin: 0 5px;
+}
+
 .userMessage {
   margin: 10px;
   color: #dc143c;

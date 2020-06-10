@@ -1,6 +1,9 @@
 .gridSquare {
     background-color: #fff;
     border: 1px solid #bbb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .start {
@@ -14,12 +17,17 @@
 .block {
     background-color: #5e5e5e;
     color: #fff;
+    font-size: 1.5em;
 }
 
 .pathUp, .pathRight, .pathDown, .pathLeft {
     background-color: #96b3e7;
+    font-size: 2em;
+    font-weight: bold;
 }
 
 .deadEnd {
     background-color: #dc143c;
+    font-size: 2em;
+    font-weight: bold;
 }

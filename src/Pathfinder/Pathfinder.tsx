@@ -8,6 +8,7 @@ interface PathfinderState {
   rows: number;
   gridBuildMode: string;
   gridArray: Array<string>;
+  pathfinderInputGrid: Array<string>;
   userMessage: string;
 }
 
@@ -25,6 +26,7 @@ class Pathfinder extends React.Component<{}, PathfinderState>
         "rows": rows,
         "gridArray": gridArray,
         "gridBuildMode": "start",
+        "pathfinderInputGrid": [],
         "userMessage": ""
     }
 }
@@ -51,6 +53,22 @@ class Pathfinder extends React.Component<{}, PathfinderState>
     });
   }
 
+  clearGrid = () : void => {
+    this.setState({
+      gridArray: new Array(this.state.cols * this.state.rows).fill('neutral')
+    });
+    return;
+  }
+
+  resetGrid = () : void => {
+    if (this.state.pathfinderInputGrid.length === this.state.cols * this.state.rows) {
+      this.setState({
+        gridArray: this.state.pathfinderInputGrid
+      });
+    }
+    return;
+  }
+
   runPathfinder = (gridArray: Array<string>) : void => {
     if (gridArray.length !== this.state.rows * this.state.cols) {
       this.setState({
@@ -68,13 +86,13 @@ class Pathfinder extends React.Component<{}, PathfinderState>
 
     const start = indexToXYArray(gridArray.indexOf("start"), this.state.cols);
     const end = indexToXYArray(gridArray.indexOf("end"), this.state.cols);
-    let pathFinderResult = [];
 
-    gridArray = convertArrayTo2D(gridArray, this.state.cols, this.state.rows);
-    pathFinderResult = pathfinder1(gridArray, start, end);
-    pathFinderResult = convertArrayTo1D(pathFinderResult);
+    const gridArray2d = convertArrayTo2D(gridArray, this.state.cols, this.state.rows);
+    const pathFinderResult2d = pathfinder1(gridArray2d, start, end);
+    const pathFinderResult = convertArrayTo1D(pathFinderResult2d);
 
     this.setState({
+      pathfinderInputGrid: gridArray,
       gridArray: pathFinderResult,
       userMessage: ""
     })
@@ -97,6 +115,8 @@ class Pathfinder extends React.Component<{}, PathfinderState>
 
         <div className="runControls">
           <button type="button" onClick={ ()=> this.runPathfinder(this.state.gridArray) }>Run &gt;&gt;</button>
+          <button type="button" onClick={ ()=> this.resetGrid() }>Reset &#8634;</button>
+          <button type="button" onClick={ ()=> this.clearGrid() }>Clear</button>
         </div>
 
         <div className="userMessage">{ this.state.userMessage }</div>

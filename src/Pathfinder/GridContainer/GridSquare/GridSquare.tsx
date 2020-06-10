@@ -17,6 +17,18 @@ export default class GridSquare extends React.Component<GridSquareProps>
         "index": this.props.index
     }
 
+    translateBlockType = {
+        "neutral"   : "",
+        "start"     : "Start",
+        "end"       : "End",
+        "block"     : "X",
+        "pathUp"    : "&#8679;",
+        "pathRight" : "&#8680;",
+        "pathDown"  : "&#8681;",
+        "pathLeft"  : "&#8678;",
+        "deadEnd"   : "&#8856;"
+    }
+
     componentDidUpdate(prevProps) {
         if (this.props.blockType !== prevProps.blockType) {
             this.setState({
@@ -29,8 +41,8 @@ export default class GridSquare extends React.Component<GridSquareProps>
         return (
             <div className={`gridSquare ${this.state.blockType}`}
                 style={{width: this.props.size + "px", height: this.props.size + "px"}}
-                onClick={() => this.props.handleClick(this.state.index)}>
-                    { this.state.blockType }
+                onClick={() => this.props.handleClick(this.state.index)}
+                dangerouslySetInnerHTML={{__html: this.translateBlockType[`${this.state.blockType}`]}}>
             </div>
         )
     }
