@@ -1,4 +1,10 @@
 
+export const indexToXYArray = (index: number, cols: number) : Array<number> => {
+    let output = [];
+    output[0] = index % cols;
+    output[1] = Math.floor(index / cols);
+    return output;
+}
 
 export const convertArrayTo2D = (inputArray: Array<any>, cols: number, rows: number) : Array<any> => {
     let output = new Array(cols).fill('');
@@ -12,6 +18,17 @@ export const convertArrayTo2D = (inputArray: Array<any>, cols: number, rows: num
     return output;
 }
 
+export const convertArrayTo1D = (inputArray: Array<any>) : Array<any> => {
+    let output = [];
+
+    inputArray.forEach((column, x) => {
+        column.forEach((row, y) => {
+            output[(y * inputArray.length) + x] = row;
+        })
+    })
+    return output;
+}
+
 export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: Array<number>) : Array<any> => {
     // input array must be a 2d array or equal length arrays, including one "start" value and one "end" value
     let currentRoute = []; // each route position is an object of { position: [x, y], availableMoves: int/0-4/ }
@@ -19,13 +36,15 @@ export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: A
     let complete = false;
     let endX = end[0];
     let endY = end[1];
+    let outputArray = inputArray;
 
     while (complete === false) {
         let currentX = currentPosition[0];
         let currentY = currentPosition[1];
         let availableMoves = [];
 
-        
+        console.log('Current: ' + currentPosition + ' End: ' + end)
+
         if (currentX === endX && currentY === endY) {
             currentRoute.push({ position: currentPosition, availableMoves: 0 });
             complete = true;
@@ -37,8 +56,6 @@ export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: A
                 [currentX, currentY + 1],
                 [currentX, currentY - 1],
             ]
-
-            console.log('Available moves: ' + availableMoves);
             
             // remove blocking squares from available moves array
             availableMoves = availableMoves.filter((position) => {
@@ -54,8 +71,6 @@ export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: A
                     );
             })
             
-            console.log('Available moves filtered: ' + availableMoves);
-            
             // sort available moves by priority, determined by the longest difference by axis to the goal
             availableMoves.sort((a, b) => {
                 if (Math.abs(currentX - endX) > Math.abs(currentY - endY)
@@ -64,13 +79,13 @@ export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: A
                     if (Math.abs(a[0] - endX) < Math.abs(b[0] - endX)) return -1; // sort items with the smaller x distance to the beginning of the array
                     if (Math.abs(a[0] - endX) > Math.abs(b[0] - endX)) return 1;
                     
-                    if (Math.abs(a[1] - endX) < Math.abs(b[1] - endX)) return -1; // if x distance is the same, sort by y
-                    if (Math.abs(a[1] - endX) < Math.abs(b[1] - endX)) return 1;
+                    if (Math.abs(a[1] - endY) < Math.abs(b[1] - endY)) return -1; // if x distance is the same, sort by y
+                    if (Math.abs(a[1] - endY) < Math.abs(b[1] - endY)) return 1;
                     
                 } else { // in this case the y distance must be greater than the x distance
                     
-                    if (Math.abs(a[1] - endX) < Math.abs(b[1] - endX)) return -1; // sort by y first
-                    if (Math.abs(a[1] - endX) > Math.abs(b[1] - endX)) return 1;
+                    if (Math.abs(a[1] - endY) < Math.abs(b[1] - endY)) return -1; // sort by y first
+                    if (Math.abs(a[1] - endY) > Math.abs(b[1] - endY)) return 1;
                     
                     if (Math.abs(a[0] - endX) < Math.abs(b[0] - endX)) return -1; // then sort by x
                     if (Math.abs(a[0] - endX) < Math.abs(b[0] - endX)) return 1;
@@ -78,20 +93,26 @@ export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: A
                 }
             })
             
-            console.log('Available moves sorted: ' + availableMoves);
+            console.log('Available moves: ' + availableMoves);
 
             // apply move according to availability and priority
             if (availableMoves.length < 1) {
+                outputArray[currentPosition[0]][currentPosition[1]] = "deadEnd";
                 currentRoute.push({ position: currentPosition, availableMoves: 0 });
                 break; // path has failed
             } else {
+                if (availableMoves[0][0] > currentPosition[0]) outputArray[currentPosition[0]][currentPosition[1]] = "pathRight";
+                if (availableMoves[0][0] < currentPosition[0]) outputArray[currentPosition[0]][currentPosition[1]] = "pathLeft";
+                if (availableMoves[0][1] > currentPosition[1]) outputArray[currentPosition[0]][currentPosition[1]] = "pathDown";
+                if (availableMoves[0][1] < currentPosition[1]) outputArray[currentPosition[0]][currentPosition[1]] = "pathUp";
                 currentRoute.push({ position: currentPosition, availableMoves: availableMoves.length });
                 currentPosition = availableMoves[0];
             }
         }
 
         console.log(currentRoute);
+        console.log(outputArray);
     }
 
-    return currentRoute;
+    return outputArray;
 }

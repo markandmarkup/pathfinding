@@ -1,0 +1,22 @@
+.pathfinder {
+  text-align: center;
+  width: 600px;
+  margin: 50px auto;
+}
+
+.gridBuildOptions {
+  margin: 10px;
+}
+
+.gridBuildOptions label {
+  margin-right: 10px;
+}
+
+.runControls {
+  margin: 0 10px 10px;
+}
+
+.userMessage {
+  margin: 10px;
+  color: #dc143c;
+}

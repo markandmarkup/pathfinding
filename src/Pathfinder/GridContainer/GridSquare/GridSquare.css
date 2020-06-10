@@ -1,0 +1,25 @@
+.gridSquare {
+    background-color: #fff;
+    border: 1px solid #bbb;
+}
+
+.start {
+    background-color: #6495ed;
+}
+
+.end {
+    background-color: #3cb371;
+}
+
+.block {
+    background-color: #5e5e5e;
+    color: #fff;
+}
+
+.pathUp, .pathRight, .pathDown, .pathLeft {
+    background-color: #96b3e7;
+}
+
+.deadEnd {
+    background-color: #dc143c;
+}
