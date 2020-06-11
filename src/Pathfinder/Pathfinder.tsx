@@ -1,7 +1,7 @@
 import React from 'react';
 import './Pathfinder.css';
 import GridContainer from './GridContainer/GridContainer';
-import { convertArrayTo2D, pathfinder1, indexToXYArray, convertArrayTo1D } from '../Utils';
+import { convertArrayTo2D, pathfinder1, indexToXYArray, convertArrayTo1D, pathfinder2 } from '../Utils';
 
 interface PathfinderState {
   cols: number;
@@ -88,14 +88,15 @@ class Pathfinder extends React.Component<{}, PathfinderState>
     const end = indexToXYArray(gridArray.indexOf("end"), this.state.cols);
 
     const gridArray2d = convertArrayTo2D(gridArray, this.state.cols, this.state.rows);
-    const pathFinderResult2d = pathfinder1(gridArray2d, start, end);
-    const pathFinderResult = convertArrayTo1D(pathFinderResult2d);
+    pathfinder2(gridArray2d, start, end);
+    // const pathFinderResult2d = pathfinder1(gridArray2d, start, end);
+    // const pathFinderResult = convertArrayTo1D(pathFinderResult2d);
 
-    this.setState({
-      pathfinderInputGrid: gridArray,
-      gridArray: pathFinderResult,
-      userMessage: ""
-    })
+    // this.setState({
+    //   pathfinderInputGrid: gridArray,
+    //   gridArray: pathFinderResult,
+    //   userMessage: ""
+    // })
     return;
   }
 
