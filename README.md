@@ -28,4 +28,5 @@ Written in React/Typescript with some unit testing thrown in for good measure.
 5. **Reset** returns the grid to the configuration when 'Run' was last clicked
 6. **Clear** returns all blocks in the grid to 'Neutral'
 
-![Screenshot of the Pathfinding app]( "Screenshot")
+## Screenshot
+![Screenshot of the Pathfinding app](https://raw.githubusercontent.com/markandmarkup/pathfinding/master/public/images/screenshot.PNG "Screenshot")
