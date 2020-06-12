@@ -1,35 +1,7 @@
+import { initialAvailableMoves } from "./Utils";
+import { IPathfinderReturn } from "../interfaces/IPathfinderReturn";
 
-export const indexToXYArray = (index: number, cols: number) : Array<number> => {
-    let output = [];
-    output[0] = index % cols;
-    output[1] = Math.floor(index / cols);
-    return output;
-}
-
-export const convertArrayTo2D = (inputArray: Array<any>, cols: number, rows: number) : Array<any> => {
-    let output = new Array(cols).fill('');
-    output = output.map(i => new Array(rows).fill(''));
-
-    inputArray.forEach((item, index) => {
-        let x = index % cols;
-        let y = Math.floor(index / cols);
-        output[x][y] = item;
-    })
-    return output;
-}
-
-export const convertArrayTo1D = (inputArray: Array<any>) : Array<any> => {
-    let output = [];
-
-    inputArray.forEach((column, x) => {
-        column.forEach((row, y) => {
-            output[(y * inputArray.length) + x] = row;
-        })
-    })
-    return output;
-}
-
-export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: Array<number>) : Array<any> => {
+export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: Array<number>) : IPathfinderReturn => {
     // input array must be a 2d array or equal length arrays, including one "start" value and one "end" value
     let currentRoute = []; // each route position is an object of { position: [x, y], availableMoves: int/0-4/ }
     let currentPosition = start;
@@ -48,12 +20,7 @@ export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: A
             complete = true;
             continue;
         } else {
-            availableMoves = [
-                [currentX + 1, currentY],
-                [currentX - 1, currentY],
-                [currentX, currentY + 1],
-                [currentX, currentY - 1],
-            ]
+            availableMoves = initialAvailableMoves(currentX, currentY);
             
             // remove blocking squares from available moves array
             availableMoves = availableMoves.filter((position) => {
@@ -109,53 +76,9 @@ export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: A
         console.log(currentRoute);
     }
 
-    return outputArray;
-}
-
-export const pathfinder2 = (inputArray: Array<any>, start: Array<number>, end: Array<number>) : void => {
-    let allRoutes = [];
-    let routePartials = [];
-
-    const routeBuilder = (currentPosition: Array<number>, currentRoute: Array<any>, end: Array<number>) => {
-        let currentX = currentPosition[0];
-        let currentY = currentPosition[1];
-        let availableMoves = [
-            [currentX + 1, currentY],
-            [currentX - 1, currentY],
-            [currentX, currentY + 1],
-            [currentX, currentY - 1],
-        ]
-
-        currentRoute.push(currentPosition);
-
-        if (JSON.stringify(currentPosition) !== JSON.stringify(end)) {
-            availableMoves = availableMoves.filter((position) => {
-                const x = position[0];
-                const y = position[1];
-                return (
-                    x >= 0
-                    && x < inputArray.length
-                    && y >= 0
-                    && y < inputArray[0].length
-                    && inputArray[x][y] !== "block"
-                    && !currentRoute.find(item => JSON.stringify(item) === JSON.stringify(position))
-                    );
-            })
-
-            if (availableMoves.length === 1) {
-                routeBuilder(availableMoves[0], Array.from(currentRoute), end);
-            } else if (availableMoves.length > 1) {
-                routePartials.push(Array.from(currentRoute));
-                availableMoves.forEach(position => routeBuilder(position, Array.from(routePartials[routePartials.length - 1]), end));
-                routePartials.pop();
-            }
-
-        } else {
-            allRoutes.push(Array.from(currentRoute));
-        }
-    }
-
-    routeBuilder(start, [], end);
-    console.log('All:');
-    console.log(allRoutes);
+    return {
+        success: true,
+        resultArray: outputArray,
+        pathCount: 1
+    };
 }

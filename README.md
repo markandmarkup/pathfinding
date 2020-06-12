@@ -1,68 +1,31 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Exploring Pathfinding Algorithms
 
-## Available Scripts
+This project is a self imposed challenge with a goal of trying to find efficient pathfinding algorithms.
 
-In the project directory, you can run:
+The algorithm must find a continuous path from 'Start' to 'End', given the following rules:
 
-### `npm start`
+- The path can move from its current square to any adjacent square in a move: up, down, left or right
+- The path cannot enter a 'Block' square
+- The path cannot visit the same square twice
+- The algorithm should strive to find the shortest possible path from Start to End
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The app has been put together to chart my progress as I explore new algorithm ideas and compare them with one another.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Written in React/Typescript with some unit testing thrown in for good measure.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the repo locally to your machine via SSH
+2. CD to the root folder of the project
+3. Run with `npm start` - the app will luanch on localhost:3000 by default
 
-### `npm run build`
+## User Guide
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Select a block type from the radio selections - 'Start', 'End', 'Block' or 'Neutral'
+2. Click a square on the grid to apply the selected block type. There can only be one 'Start' and 'End' square, but multiple 'Block' squares
+3. Choose which algorithm to run from the drop-down
+4. Click **Run** to run the algorithm when everything's set up (it may take some time to see the results depending on your pc and the algorithm choice!)
+5. **Reset** returns the grid to the configuration when 'Run' was last clicked
+6. **Clear** returns all blocks in the grid to 'Neutral'
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+![Screenshot of the Pathfinding app]( "Screenshot")

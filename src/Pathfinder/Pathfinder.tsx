@@ -1,12 +1,17 @@
 import React from 'react';
 import './Pathfinder.css';
 import GridContainer from './GridContainer/GridContainer';
-import { convertArrayTo2D, pathfinder1, indexToXYArray, convertArrayTo1D, pathfinder2 } from '../Utils';
+import { convertArrayTo2D, indexToXYArray, convertArrayTo1D } from '../utils/Utils';
+import { pathfinder1 } from '../utils/Pathfinder1';
+import { pathfinder2 } from '../utils/Pathfinder2';
+
 
 interface PathfinderState {
   cols: number;
   rows: number;
   gridBuildMode: string;
+  pathfinders: object;
+  selectedPathfinder: Function;
   gridArray: Array<string>;
   pathfinderInputGrid: Array<string>;
   userMessage: string;
@@ -25,15 +30,26 @@ class Pathfinder extends React.Component<{}, PathfinderState>
         "cols": cols,
         "rows": rows,
         "gridArray": gridArray,
+        "pathfinders": {
+          "pathfinder1": pathfinder1,
+          "pathfinder2": pathfinder2
+        },
+        "selectedPathfinder": pathfinder1,
         "gridBuildMode": "start",
         "pathfinderInputGrid": [],
         "userMessage": ""
     }
-}
+  }
 
   setGridBuildMode = (blockType: string) : void => {
     this.setState({
       gridBuildMode: blockType
+    });
+  }
+
+  setPathfinder = (e) : void => {
+    this.setState({
+      selectedPathfinder: this.state.pathfinders[e.target.value]
     });
   }
 
@@ -86,17 +102,16 @@ class Pathfinder extends React.Component<{}, PathfinderState>
 
     const start = indexToXYArray(gridArray.indexOf("start"), this.state.cols);
     const end = indexToXYArray(gridArray.indexOf("end"), this.state.cols);
-
     const gridArray2d = convertArrayTo2D(gridArray, this.state.cols, this.state.rows);
-    pathfinder2(gridArray2d, start, end);
-    // const pathFinderResult2d = pathfinder1(gridArray2d, start, end);
-    // const pathFinderResult = convertArrayTo1D(pathFinderResult2d);
+    const pathFinderResult = this.state.selectedPathfinder(gridArray2d, start, end);
+    const userMessage = pathFinderResult.success ? `Successful paths: ${pathFinderResult.pathCount}` : "No successful paths found";
+    const pathFinder1DResult = pathFinderResult.resultArray.length > 0 ? convertArrayTo1D(pathFinderResult.resultArray) : gridArray;
 
-    // this.setState({
-    //   pathfinderInputGrid: gridArray,
-    //   gridArray: pathFinderResult,
-    //   userMessage: ""
-    // })
+    this.setState({
+      pathfinderInputGrid: gridArray,
+      gridArray: pathFinder1DResult,
+      userMessage: userMessage
+    })
     return;
   }
 
@@ -115,6 +130,10 @@ class Pathfinder extends React.Component<{}, PathfinderState>
         </div>
 
         <div className="runControls">
+          <select name="pathfinderSelect" id="pathfinderSelect" onChange={ (e)=> this.setPathfinder(e) }>
+            <option value="pathfinder1">Pathfinder 1</option>
+            <option value="pathfinder2">Pathfinder 2</option>
+          </select>
           <button type="button" onClick={ ()=> this.runPathfinder(this.state.gridArray) }>Run &gt;&gt;</button>
           <button type="button" onClick={ ()=> this.resetGrid() }>Reset &#8634;</button>
           <button type="button" onClick={ ()=> this.clearGrid() }>Clear</button>
