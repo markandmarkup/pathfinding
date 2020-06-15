@@ -42,6 +42,27 @@ class Pathfinder extends React.Component<{}, PathfinderState>
   }
 
   setGridBuildMode = (blockType: string) : void => {
+    let buildLabels = document.querySelectorAll(".gridBuildOptions label");
+    buildLabels.forEach(label => label.setAttribute("style", "background-color: none"));
+
+    switch (blockType) {
+      case "start":
+        buildLabels[0].setAttribute("style", "background-color: #6495ed");
+        break;
+      case "end":
+        buildLabels[1].setAttribute("style", "background-color: #3cb371");
+        break;
+      case "block":
+        buildLabels[2].setAttribute("style", "background-color: #808080");
+        break;
+      case "neutral":
+        buildLabels[3].setAttribute("style", "background-color: #96b3e7");
+        break;
+      default:
+        buildLabels[0].setAttribute("style", "background-color: #6495ed");
+        break;
+    }
+
     this.setState({
       gridBuildMode: blockType
     });
@@ -67,19 +88,25 @@ class Pathfinder extends React.Component<{}, PathfinderState>
     this.setState({
         gridArray: updatedGridArray
     });
+
+    if (this.state.gridBuildMode === "start") this.setGridBuildMode("end");
+    if (this.state.gridBuildMode === "end") this.setGridBuildMode("block");
   }
 
   clearGrid = () : void => {
     this.setState({
-      gridArray: new Array(this.state.cols * this.state.rows).fill('neutral')
+      gridArray: new Array(this.state.cols * this.state.rows).fill('neutral'),
+      userMessage: ""
     });
+    this.setGridBuildMode("start");
     return;
   }
 
   resetGrid = () : void => {
     if (this.state.pathfinderInputGrid.length === this.state.cols * this.state.rows) {
       this.setState({
-        gridArray: this.state.pathfinderInputGrid
+        gridArray: this.state.pathfinderInputGrid,
+        userMessage: ""
       });
     }
     return;
@@ -119,14 +146,18 @@ class Pathfinder extends React.Component<{}, PathfinderState>
     return (
       <div className="pathfinder">
         <div className="gridBuildOptions">
-          <input type="radio" id="gridBuildStart" name="gridBuildOptions" value="start" onClick={()=> this.setGridBuildMode("start")} defaultChecked/>
-            <label htmlFor="gridBuildStart">Start</label>
-          <input type="radio" id="gridBuildEnd" name="gridBuildOptions" value="end" onClick={()=> this.setGridBuildMode("end")}/>
-            <label htmlFor="gridBuildEnd">End</label>
-          <input type="radio" id="gridBuildBlock" name="gridBuildOptions" value="block" onClick={()=> this.setGridBuildMode("block")}/>
-            <label htmlFor="gridBuildBlock">Block</label>
-          <input type="radio" id="gridBuildNeutral" name="gridBuildOptions" value="neutral" onClick={()=> this.setGridBuildMode("neutral")}/>
-            <label htmlFor="gridBuildNeutral">Neutral</label>
+          <label htmlFor="gridBuildStart" style={{backgroundColor: "#6495ed"}}>
+            <input type="radio" id="gridBuildStart" name="gridBuildOptions" value="start" onClick={()=> this.setGridBuildMode("start")} defaultChecked/>
+              Start</label>
+          <label htmlFor="gridBuildEnd">
+            <input type="radio" id="gridBuildEnd" name="gridBuildOptions" value="end" onClick={()=> this.setGridBuildMode("end")}/>
+              End</label>
+          <label htmlFor="gridBuildBlock">
+            <input type="radio" id="gridBuildBlock" name="gridBuildOptions" value="block" onClick={()=> this.setGridBuildMode("block")}/>
+              Block</label>
+          <label htmlFor="gridBuildNeutral">
+            <input type="radio" id="gridBuildNeutral" name="gridBuildOptions" value="neutral" onClick={()=> this.setGridBuildMode("neutral")}/>
+              Neutral</label>
         </div>
 
         <div className="runControls">

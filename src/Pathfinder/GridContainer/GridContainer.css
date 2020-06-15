@@ -6,4 +6,5 @@
     flex-wrap: wrap;
     justify-content: space-around;
     align-content: space-around;
+    outline: 1px solid #bbb;
   }

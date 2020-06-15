@@ -5,15 +5,31 @@
 }
 
 .gridBuildOptions {
-  margin: 10px;
+  margin: 10px 10px 15px;
+}
+
+.gridBuildOptions input[type="radio"] {
+  width: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .gridBuildOptions label {
-  margin-right: 10px;
+  border: 1px solid #bbb;
+  border-right-style: none;
+  padding: 4px 15px 5px;
+}
+
+.gridBuildOptions label:last-child {
+  border: 1px solid #bbb;
 }
 
 .runControls {
-  margin: 0 10px 10px;
+  margin: 10px;
+}
+
+.runControls select {
+  margin-right: 20px;
 }
 
 .runControls button {
@@ -25,5 +41,6 @@
 
 .userMessage {
   margin: 10px;
-  color: #dc143c;
+  color: #000;
+  height: 1.4em;
 }

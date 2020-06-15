@@ -77,7 +77,7 @@ export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: A
     }
 
     return {
-        success: true,
+        success: complete,
         resultArray: outputArray,
         pathCount: 1
     };
