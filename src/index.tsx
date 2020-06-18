@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import Pathfinder from './Pathfinder/Pathfinder';
 import * as serviceWorker from './serviceWorker';
+import Header from './Header/Header';
 
 ReactDOM.render(
   <React.StrictMode>
+    <Header />
     <Pathfinder />
   </React.StrictMode>,
   document.getElementById('root')
