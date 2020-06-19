@@ -12,6 +12,7 @@
     width: 100%;
     background-color: #ccc;
     font-family: Georgia, 'Times New Roman', Times, serif;
+    z-index: 2;
 }
 
 .titleContainer {
@@ -37,38 +38,66 @@
     margin: 5px 20px;
 }
 
-.navLinks button {
+.header button {
     display: inline-block;
     padding: 4px 20px;
     border: 1px solid #20385e;
-    background: #ccc;
+    background-color: #ccc;
     color: #20385e;
     border-radius: 20px;
     text-decoration: none;
     font-weight: bold;
-    transition: background 0.5s;
+    transition: background-color 0.5s;
     cursor: pointer; 
     outline: none;
     box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 
 }
 
-.navLinks button:hover {
-    background: #eee;
+.header button:hover {
+    background-color: #eee;
 }
 
-.navLinks button:focus, .navLinks button:active:focus {
+.header button:focus, .navLinks button:active:focus {
     box-shadow: 1px 1px 3px rgba(85, 116, 255, 0.8);
 }
 
-.navLinks button:active {
-    background: #bbb;
+.header button:active {
+    background-color: #bbb;
     transition: none;
     outline: none;
 }
 
 .aboutBox {
-    transition: height 1s ease-in-out;
-    overflow: hidden;
-    background-color: #eee;
+    transition: opacity 0.6s;
+    background-color: rgb(32, 56, 94);
+    color: #fff;
+    min-height: 100vh;
+    width: 100%;
+    position: fixed;
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.aboutBox button {
+    margin: 15px 20px;
+    float: right;
+}
+
+.aboutContent {
+    max-width: 600px;
+    margin: 50px auto 20px;
+}
+
+.aboutContent li {
+    margin-bottom: 1em;
+}
+
+.aboutContent h2 {
+    margin-top: 2em;
+}
+
+.aboutContent h2:first-child {
+    margin-top: unset;
 }

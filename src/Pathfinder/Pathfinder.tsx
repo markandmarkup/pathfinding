@@ -131,7 +131,8 @@ class Pathfinder extends React.Component<{}, PathfinderState>
     const end = indexToXYArray(gridArray.indexOf("end"), this.state.cols);
     const gridArray2d = convertArrayTo2D(gridArray, this.state.cols, this.state.rows);
     const pathFinderResult = this.state.selectedPathfinder(gridArray2d, start, end);
-    const userMessage = pathFinderResult.success ? `Successful paths: ${pathFinderResult.pathCount}` : "No successful paths found";
+    let userMessage = pathFinderResult.success ? `Successful paths: ${pathFinderResult.pathCount}` : "No successful paths found";
+    userMessage += ` Path attempts: ${pathFinderResult.attemptCount}`;
     const pathFinder1DResult = pathFinderResult.resultArray.length > 0 ? convertArrayTo1D(pathFinderResult.resultArray) : gridArray;
 
     this.setState({

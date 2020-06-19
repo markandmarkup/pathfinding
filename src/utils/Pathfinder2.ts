@@ -4,6 +4,7 @@ import { IPathfinderReturn } from "../interfaces/IPathfinderReturn";
 export const pathfinder2 = (inputArray: Array<any>, start: Array<number>, end: Array<number>) : IPathfinderReturn => {
     let allRoutes = [];
     let routePartials = [];
+    let attemptCount = 0;
 
     const routeBuilder = (currentPosition: Array<number>, currentRoute: Array<any>, end: Array<number>) : void => {
         let currentX = currentPosition[0];
@@ -26,22 +27,22 @@ export const pathfinder2 = (inputArray: Array<any>, start: Array<number>, end: A
                     );
             })
 
-            if (availableMoves.length === 1) {
+            if (availableMoves.length === 0) {
+                attemptCount = attemptCount + 1;        
+            } else if (availableMoves.length === 1) {
                 routeBuilder(availableMoves[0], Array.from(currentRoute), end);
             } else if (availableMoves.length > 1) {
                 routePartials.push(Array.from(currentRoute));
                 availableMoves.forEach(position => routeBuilder(position, Array.from(routePartials[routePartials.length - 1]), end));
                 routePartials.pop();
             }
-
         } else {
+            attemptCount = attemptCount + 1;
             allRoutes.push(Array.from(currentRoute));
         }
     }
 
     routeBuilder(start, [], end);
-    console.log('All:');
-    console.log(allRoutes);
 
     if (allRoutes.length > 0) {
         const shortestRoute = allRoutes.reduce((shortest, current) => {
@@ -50,13 +51,15 @@ export const pathfinder2 = (inputArray: Array<any>, start: Array<number>, end: A
         return {
             success: true,
             resultArray: coordsToTextArray(shortestRoute, inputArray),
-            pathCount: allRoutes.length
+            pathCount: allRoutes.length,
+            attemptCount: attemptCount
         };
     } else {
         return {
             success: false,
             resultArray: [],
-            pathCount: 0
+            pathCount: 0,
+            attemptCount: attemptCount
         };
     }
 

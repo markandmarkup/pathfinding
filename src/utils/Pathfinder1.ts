@@ -72,13 +72,12 @@ export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: A
                 currentPosition = availableMoves[0];
             }
         }
-
-        console.log(currentRoute);
     }
 
     return {
         success: complete,
         resultArray: outputArray,
-        pathCount: 1
+        pathCount: 1,
+        attemptCount: 1
     };
 }
