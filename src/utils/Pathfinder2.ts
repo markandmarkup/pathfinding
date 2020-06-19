@@ -45,12 +45,15 @@ export const pathfinder2 = (inputArray: Array<any>, start: Array<number>, end: A
     routeBuilder(start, [], end);
 
     if (allRoutes.length > 0) {
-        const shortestRoute = allRoutes.reduce((shortest, current) => {
-            return shortest.length <= current.length ? shortest : current;
-        })
+        const sortRoutesAsc = allRoutes.sort((a, b) => { return a.length - b.length });
+        const shortestRoutes = sortRoutesAsc.filter(route => route.length === sortRoutesAsc[0].length);
+
+        console.log(sortRoutesAsc);
+        console.log(shortestRoutes);
+
         return {
             success: true,
-            resultArray: coordsToTextArray(shortestRoute, inputArray),
+            resultArray: shortestRoutes.map(route => coordsToTextArray(route, inputArray)),
             pathCount: allRoutes.length,
             attemptCount: attemptCount
         };

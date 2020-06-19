@@ -1,6 +1,7 @@
 import React from 'react';
 import './Pathfinder.css';
 import GridContainer from './GridContainer/GridContainer';
+import Results from './Results/Results';
 import { convertArrayTo2D, indexToXYArray, convertArrayTo1D } from '../utils/Utils';
 import { pathfinder1 } from '../utils/Pathfinder1';
 import { pathfinder2 } from '../utils/Pathfinder2';
@@ -14,6 +15,7 @@ interface PathfinderState {
   selectedPathfinder: Function;
   gridArray: Array<string>;
   pathfinderInputGrid: Array<string>;
+  resultsArray: Array<any>;
   userMessage: string;
 }
 
@@ -37,6 +39,7 @@ class Pathfinder extends React.Component<{}, PathfinderState>
         "selectedPathfinder": pathfinder1,
         "gridBuildMode": "start",
         "pathfinderInputGrid": [],
+        "resultsArray": [],
         "userMessage": ""
     }
   }
@@ -133,48 +136,67 @@ class Pathfinder extends React.Component<{}, PathfinderState>
     const pathFinderResult = this.state.selectedPathfinder(gridArray2d, start, end);
     let userMessage = pathFinderResult.success ? `Successful paths: ${pathFinderResult.pathCount}` : "No successful paths found";
     userMessage += ` Path attempts: ${pathFinderResult.attemptCount}`;
-    const pathFinder1DResult = pathFinderResult.resultArray.length > 0 ? convertArrayTo1D(pathFinderResult.resultArray) : gridArray;
+    // const pathFinder1DResult = pathFinderResult.resultArray.length > 0 ? convertArrayTo1D(pathFinderResult.resultArray) : gridArray;
+    console.log('PFR:')
+    console.log(pathFinderResult.resultArray)
+    let resultsArray
+    if (pathFinderResult.resultArray.length > 0) {
+      resultsArray = pathFinderResult.resultArray.map(item => convertArrayTo1D(item));
+    }
+    console.log(resultsArray)
 
     this.setState({
       pathfinderInputGrid: gridArray,
-      gridArray: pathFinder1DResult,
+      gridArray: resultsArray.length > 0 ? resultsArray[0] : gridArray,
+      resultsArray: resultsArray,
       userMessage: userMessage
     })
     return;
   }
 
+  viewResult = (resultIndex: number): void => {
+    if (this.state.resultsArray[resultIndex]) {
+      this.setState({
+        gridArray: this.state.resultsArray[resultIndex]
+      })
+    }
+  }
+
   render() { 
     return (
       <div className="pathfinder">
-        <div className="gridBuildOptions">
-          <label htmlFor="gridBuildStart" style={{backgroundColor: "#6495ed"}}>
-            <input type="radio" id="gridBuildStart" name="gridBuildOptions" value="start" onClick={()=> this.setGridBuildMode("start")} defaultChecked/>
-              Start</label>
-          <label htmlFor="gridBuildEnd">
-            <input type="radio" id="gridBuildEnd" name="gridBuildOptions" value="end" onClick={()=> this.setGridBuildMode("end")}/>
-              End</label>
-          <label htmlFor="gridBuildBlock">
-            <input type="radio" id="gridBuildBlock" name="gridBuildOptions" value="block" onClick={()=> this.setGridBuildMode("block")}/>
-              Block</label>
-          <label htmlFor="gridBuildNeutral">
-            <input type="radio" id="gridBuildNeutral" name="gridBuildOptions" value="neutral" onClick={()=> this.setGridBuildMode("neutral")}/>
-              Neutral</label>
+        <div className="interface">
+          <div className="gridBuildOptions">
+            <label htmlFor="gridBuildStart" style={{backgroundColor: "#6495ed"}}>
+              <input type="radio" id="gridBuildStart" name="gridBuildOptions" value="start" onClick={()=> this.setGridBuildMode("start")} defaultChecked/>
+                Start</label>
+            <label htmlFor="gridBuildEnd">
+              <input type="radio" id="gridBuildEnd" name="gridBuildOptions" value="end" onClick={()=> this.setGridBuildMode("end")}/>
+                End</label>
+            <label htmlFor="gridBuildBlock">
+              <input type="radio" id="gridBuildBlock" name="gridBuildOptions" value="block" onClick={()=> this.setGridBuildMode("block")}/>
+                Block</label>
+            <label htmlFor="gridBuildNeutral">
+              <input type="radio" id="gridBuildNeutral" name="gridBuildOptions" value="neutral" onClick={()=> this.setGridBuildMode("neutral")}/>
+                Neutral</label>
+          </div>
+
+          <div className="runControls">
+            <select name="pathfinderSelect" id="pathfinderSelect" onChange={ (e)=> this.setPathfinder(e) }>
+              <option value="pathfinder1">Pathfinder 1</option>
+              <option value="pathfinder2">Pathfinder 2</option>
+            </select>
+            <button type="button" onClick={ ()=> this.runPathfinder(this.state.gridArray) }>Run &gt;&gt;</button>
+            <button type="button" onClick={ ()=> this.resetGrid() }>Reset &#8634;</button>
+            <button type="button" onClick={ ()=> this.clearGrid() }>Clear</button>
+          </div>
+
+          <div className="userMessage">{ this.state.userMessage }</div>
+
+          <GridContainer rows={ this.state.rows } cols={ this.state.cols } gridArray={ this.state.gridArray } handleClick={ this.updateGrid }/>
         </div>
 
-        <div className="runControls">
-          <select name="pathfinderSelect" id="pathfinderSelect" onChange={ (e)=> this.setPathfinder(e) }>
-            <option value="pathfinder1">Pathfinder 1</option>
-            <option value="pathfinder2">Pathfinder 2</option>
-          </select>
-          <button type="button" onClick={ ()=> this.runPathfinder(this.state.gridArray) }>Run &gt;&gt;</button>
-          <button type="button" onClick={ ()=> this.resetGrid() }>Reset &#8634;</button>
-          <button type="button" onClick={ ()=> this.clearGrid() }>Clear</button>
-        </div>
-
-        <div className="userMessage">{ this.state.userMessage }</div>
-
-        <GridContainer rows={ this.state.rows } cols={ this.state.cols } gridArray={ this.state.gridArray } handleClick={ this.updateGrid }/>
-        
+        <Results resultArray={ this.state.resultsArray } handleHover={ this.viewResult }/>
       </div>
     )
   }
