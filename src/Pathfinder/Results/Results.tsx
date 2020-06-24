@@ -4,6 +4,7 @@ import './Results.css';
 interface ResultsProps {
     resultArray: Array<any>;
     handleHover: Function;
+    selectedResult: number;
 }
 
 function Results(props: ResultsProps) {
@@ -13,7 +14,12 @@ function Results(props: ResultsProps) {
             <div className="resultsList">
                 <ul>
                     {props.resultArray.map((result, index) => {
-                        return <li key={index} onClick={ () => props.handleHover(index) }>{ index + 1 }</li>
+                        return (<li 
+                            key={index} 
+                            onMouseEnter={ () => props.handleHover(index) }
+                            >
+                                { index + 1 }
+                            </li>)
                     })}
                 </ul>
             </div>

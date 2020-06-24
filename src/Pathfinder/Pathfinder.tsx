@@ -16,6 +16,7 @@ interface PathfinderState {
   gridArray: Array<string>;
   pathfinderInputGrid: Array<string>;
   resultsArray: Array<any>;
+  selectedResult: number;
   userMessage: string;
 }
 
@@ -40,6 +41,7 @@ class Pathfinder extends React.Component<{}, PathfinderState>
         "gridBuildMode": "start",
         "pathfinderInputGrid": [],
         "resultsArray": [],
+        "selectedResult": 0,
         "userMessage": ""
     }
   }
@@ -137,13 +139,11 @@ class Pathfinder extends React.Component<{}, PathfinderState>
     let userMessage = pathFinderResult.success ? `Successful paths: ${pathFinderResult.pathCount}` : "No successful paths found";
     userMessage += ` Path attempts: ${pathFinderResult.attemptCount}`;
     // const pathFinder1DResult = pathFinderResult.resultArray.length > 0 ? convertArrayTo1D(pathFinderResult.resultArray) : gridArray;
-    console.log('PFR:')
-    console.log(pathFinderResult.resultArray)
+
     let resultsArray
     if (pathFinderResult.resultArray.length > 0) {
       resultsArray = pathFinderResult.resultArray.map(item => convertArrayTo1D(item));
     }
-    console.log(resultsArray)
 
     this.setState({
       pathfinderInputGrid: gridArray,
@@ -157,7 +157,8 @@ class Pathfinder extends React.Component<{}, PathfinderState>
   viewResult = (resultIndex: number): void => {
     if (this.state.resultsArray[resultIndex]) {
       this.setState({
-        gridArray: this.state.resultsArray[resultIndex]
+        gridArray: this.state.resultsArray[resultIndex],
+        selectedResult: resultIndex
       })
     }
   }
@@ -196,7 +197,7 @@ class Pathfinder extends React.Component<{}, PathfinderState>
           <GridContainer rows={ this.state.rows } cols={ this.state.cols } gridArray={ this.state.gridArray } handleClick={ this.updateGrid }/>
         </div>
 
-        <Results resultArray={ this.state.resultsArray } handleHover={ this.viewResult }/>
+        <Results resultArray={ this.state.resultsArray } handleHover={ this.viewResult } selectedResult={ this.state.selectedResult }/>
       </div>
     )
   }

@@ -48,9 +48,6 @@ export const pathfinder2 = (inputArray: Array<any>, start: Array<number>, end: A
         const sortRoutesAsc = allRoutes.sort((a, b) => { return a.length - b.length });
         const shortestRoutes = sortRoutesAsc.filter(route => route.length === sortRoutesAsc[0].length);
 
-        console.log(sortRoutesAsc);
-        console.log(shortestRoutes);
-
         return {
             success: true,
             resultArray: shortestRoutes.map(route => coordsToTextArray(route, inputArray)),

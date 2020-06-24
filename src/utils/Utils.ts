@@ -68,20 +68,25 @@ export const initialAvailableMoves = (currentX: number, currentY: number) : Arra
  */
 export const coordsToTextArray = (coordsArray: Array<any>, inputTextArray: Array<any>) : Array<any> => {
 
+    let output = inputTextArray.map(column => column.map(row => row))
+
+    console.log("Coord to text output");
+    console.log(output);
+
     coordsArray.forEach((position, index) => {
         if (index < coordsArray.length -1) {
             let nextPosition = coordsArray[index + 1];
-            if (nextPosition[0] > position[0]) inputTextArray[position[0]][position[1]] = "pathRight";
-            if (nextPosition[0] < position[0]) inputTextArray[position[0]][position[1]] = "pathLeft";
-            if (nextPosition[1] > position[1]) inputTextArray[position[0]][position[1]] = "pathDown";
-            if (nextPosition[1] < position[1]) inputTextArray[position[0]][position[1]] = "pathUp";
+            if (nextPosition[0] > position[0]) output[position[0]][position[1]] = "pathRight";
+            if (nextPosition[0] < position[0]) output[position[0]][position[1]] = "pathLeft";
+            if (nextPosition[1] > position[1]) output[position[0]][position[1]] = "pathDown";
+            if (nextPosition[1] < position[1]) output[position[0]][position[1]] = "pathUp";
         }
     })
 
     let coordsLastPosition = coordsArray[coordsArray.length -1];
-    if (inputTextArray[coordsLastPosition[0]][coordsLastPosition[1]] !== "end") {
-        inputTextArray[coordsLastPosition[0]][coordsLastPosition[1]] = "deadEnd";
+    if (output[coordsLastPosition[0]][coordsLastPosition[1]] !== "end") {
+        output[coordsLastPosition[0]][coordsLastPosition[1]] = "deadEnd";
     }
 
-    return inputTextArray;
+    return output;
 }
