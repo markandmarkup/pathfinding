@@ -8,7 +8,7 @@ export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: A
     let complete = false;
     let endX = end[0];
     let endY = end[1];
-    let outputArray = inputArray;
+    let outputArray = inputArray.map(column => column.map(row => row));
 
     while (complete === false) {
         let currentX = currentPosition[0];
@@ -76,7 +76,7 @@ export const pathfinder1 = (inputArray: Array<any>, start: Array<number>, end: A
 
     return {
         success: complete,
-        resultArray: outputArray,
+        resultArray: new Array(outputArray),
         pathCount: 1,
         attemptCount: 1
     };

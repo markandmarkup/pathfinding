@@ -4,9 +4,11 @@ import './index.css';
 import Pathfinder from './Pathfinder/Pathfinder';
 import * as serviceWorker from './serviceWorker';
 import Header from './Header/Header';
+import { calculateStraightLine } from './utils/Utils';
 
 ReactDOM.render(
   <React.StrictMode>
+    {/* { console.log(calculateStraightLine([2,1], [2,5])) } */}
     <Header />
     <Pathfinder />
   </React.StrictMode>,

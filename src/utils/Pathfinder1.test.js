@@ -11,12 +11,12 @@ test('success test pathfinder1 diagonal route', () => {
     const end = [3,3];
     const expected = {
         success: true,
-        resultArray: [
+        resultArray: [[
             ["neutral","pathRight","neutral","neutral"],
             ["neutral","pathRight","neutral","neutral"],
             ["neutral","pathDown","pathRight","neutral"],
             ["neutral","neutral","pathDown","end"]
-        ],
+        ]],
         pathCount: 1,
         attemptCount: 1
     };
@@ -34,12 +34,12 @@ test('success test pathfinder1 straight x axis route', () => {
     const end = [3,2];
     const expected = {
         success: true,
-        resultArray: [
+        resultArray: [[
             ["neutral","neutral","neutral","neutral"],
             ["neutral","neutral","pathRight","neutral"],
             ["neutral","neutral","pathRight","neutral"],
             ["neutral","neutral","end","neutral"]
-        ],
+        ]],
         pathCount: 1,
         attemptCount: 1
     };
@@ -57,12 +57,12 @@ test('success test pathfinder1 negative uneven diagonal route', () => {
     const end = [0,0];
     const expected = {
         success: true,
-        resultArray: [
+        resultArray: [[
             ["end","pathUp","neutral","neutral"],
             ["neutral","pathLeft","pathUp","neutral"],
             ["neutral","neutral","pathLeft","pathUp"],
             ["neutral","neutral","neutral","neutral"]
-        ],
+        ]],
         pathCount: 1,
         attemptCount: 1
     };

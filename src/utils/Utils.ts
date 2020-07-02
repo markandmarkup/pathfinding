@@ -90,3 +90,40 @@ export const coordsToTextArray = (coordsArray: Array<any>, inputTextArray: Array
 
     return output;
 }
+
+export const checkStraightLine = (inputArray: Array<any>, start: number[], end: number[]): boolean => {
+
+    return true;
+
+    return false;
+
+}
+
+export const calculateStraightLine = (start: number[], end: number[]): Array<any> => {
+    const [x0, y0] = start;
+    const [x1, y1] = end;
+    const xSize = Math.abs(x1 - x0) + 1;
+    const ySize = Math.abs(y1 - y0) + 1;
+    let result = [];
+
+    console.log(x0);
+    console.log(y0);
+    console.log(x1);
+    console.log(y1);
+    console.log(xSize);
+    console.log(ySize);
+
+    if (xSize === 1) {
+        for(let i = 0; i < ySize; i++) {
+            result.push(Array.from([x0, y0 + i]));
+        }
+    }
+
+    if (ySize === 1) {
+        for(let i = 0; i < xSize; i++) {
+            result.push(Array.from([x0 + i, y0]));
+        }
+    }
+
+    return result;
+}

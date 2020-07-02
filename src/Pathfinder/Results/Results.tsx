@@ -17,6 +17,7 @@ function Results(props: ResultsProps) {
                         return (<li 
                             key={index} 
                             onMouseEnter={ () => props.handleHover(index) }
+                            style={{backgroundColor: props.selectedResult === index ? "#6495ed" : "unset"}}
                             >
                                 { index + 1 }
                             </li>)
