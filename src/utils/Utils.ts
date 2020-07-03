@@ -102,26 +102,52 @@ export const checkStraightLine = (inputArray: Array<any>, start: number[], end: 
 export const calculateStraightLine = (start: number[], end: number[]): Array<any> => {
     const [x0, y0] = start;
     const [x1, y1] = end;
-    const xSize = Math.abs(x1 - x0) + 1;
-    const ySize = Math.abs(y1 - y0) + 1;
+    const dx = Math.abs(x1 - x0);
+    const dy = Math.abs(y1 - y0);
     let result = [];
 
-    console.log(x0);
-    console.log(y0);
-    console.log(x1);
-    console.log(y1);
-    console.log(xSize);
-    console.log(ySize);
-
-    if (xSize === 1) {
-        for(let i = 0; i < ySize; i++) {
-            result.push(Array.from([x0, y0 + i]));
+    if (dx === 0) {
+        if (y0 < y1) {
+            for(let i = 0; i < (dy + 1); i++) {
+                result.push(Array.from([x0, y0 + i]));
+            }
+        } else if (y0 > y1) {
+            for(let i = 0; i < (dy + 1); i++) {
+                result.push(Array.from([x0, y0 - i]));
+            }
         }
     }
 
-    if (ySize === 1) {
-        for(let i = 0; i < xSize; i++) {
-            result.push(Array.from([x0 + i, y0]));
+    if (dy === 0) {
+        if (x0 < x1) {
+            for(let i = 0; i < (dx + 1); i++) {
+                result.push(Array.from([x0 + i, y0]));
+            }
+        } else if (x0 > x1) {
+            for(let i = 0; i < (dx + 1); i++) {
+                result.push(Array.from([x0 - i, y0]));
+            }
+        }
+    }
+
+    if ((dx > dy && dy !== 0) || (dy > dx && dx !== 0)) {
+        const sx = x0 < x1 ? 1 : -1;
+        const sy = y0 < y1 ? 1 : -1; 
+        let err = (dx>dy ? dx : -dy)/2;
+        let x = x0, y = y0;
+ 
+        while (true) {
+            result.push(Array.from([x, y]));
+            if (x === x1 && y === y1) break;
+            let e2 = err;
+            if (e2 > -dx) { 
+                err -= dy; 
+                x += sx;
+            }
+            if (e2 < dy) { 
+                err += dx; 
+                y += sy;
+            }
         }
     }
 

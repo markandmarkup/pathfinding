@@ -29,3 +29,35 @@ test('Success test calculateStraightLine static y axis', () => {
 
     expect(calculateStraightLine(start, end)).toStrictEqual(expected);
 })
+
+test('Success test calculateStraightLine static x axis negative mvt', () => {
+    const start = [1,4];
+    const end = [1,0];
+    const expected = [[1,4], [1,3], [1,2], [1,1], [1,0]];
+
+    expect(calculateStraightLine(start, end)).toStrictEqual(expected);
+})
+
+test('Success test calculateStraightLine static y axis negative mvt', () => {
+    const start = [6,4];
+    const end = [4,4];
+    const expected = [[6,4], [5,4], [4,4]];
+
+    expect(calculateStraightLine(start, end)).toStrictEqual(expected);
+})
+
+test('Success test calculateStraightLine diagonal 4x3 positive mvt', () => {
+    const start = [2,2];
+    const end = [5,4];
+    const expected = [[2,2], [3,3], [4,3], [5,4]];
+
+    expect(calculateStraightLine(start, end)).toStrictEqual(expected);
+})
+
+test('Success test calculateStraightLine diagonal 2x5 positive mvt', () => {
+    const start = [0,1];
+    const end = [1,5];
+    const expected = [[0,1], [0,2], [0,3], [1,4], [1,5]];
+
+    expect(calculateStraightLine(start, end)).toStrictEqual(expected);
+})
