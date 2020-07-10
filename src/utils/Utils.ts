@@ -11,6 +11,15 @@ export const indexToXYArray = (index: number, cols: number) : Array<number> => {
     return output;
 }
 
+/** Converts an x, y coordinate to an integer, incrementing by column
+ * 
+ * @param xyCoord 
+ * @param cols max column number in the grid
+ */
+export const xyArrayToIndex = (xyCoord: number[], cols: number) : number => {
+    return xyCoord[0] * cols + xyCoord[1];
+}
+
 /** Converts a 1d array into a 2d 'grid' for pathfinding calculation
  *  Output format: [col[row, row], col[row, row] ...]
  * 
@@ -91,11 +100,23 @@ export const coordsToTextArray = (coordsArray: Array<any>, inputTextArray: Array
     return output;
 }
 
-export const checkStraightLine = (inputArray: Array<any>, start: number[], end: number[]): boolean => {
+/** Takes an array of coordinates in a diagonal and returns an array of all possible lines
+ * using upper/lower options as intermediate steps
+ * 
+ * @param diagonalStraightLine 
+ */
+export const getAllDiagonalPerms = (diagonalStraightLine: Array<any>): Array<any> => {
 
-    return true;
+    const xDirection = (-1) * (diagonalStraightLine[0][0] - diagonalStraightLine[diagonalStraightLine.length - 1][0]);
+    const yDirection = (-1) * (diagonalStraightLine[0][1] - diagonalStraightLine[diagonalStraightLine.length - 1][1]);
+    
 
-    return false;
+
+    // for each item in the diagonal, check it against the next array item
+    // if they are diagonally apart, insert a new coordinate between them in the upper square
+    // add newly inserted index into an array for switching
+    // iterate over switching array
+    
 
 }
 
@@ -152,4 +173,23 @@ export const calculateStraightLine = (start: number[], end: number[]): Array<any
     }
 
     return result;
+}
+
+function sortCoordsAsc(coords: Array<any>): Array<any> {
+    let cols = coords.reduce((a, b) => a[0] > b[0] ? a : b);
+    return coords.sort((a, b) => xyArrayToIndex(a, cols) - xyArrayToIndex(b, cols));
+}
+
+function sortCoordsDesc(coords: Array<any>): Array<any> {
+    let cols = coords.reduce((a, b) => a[0] > b[0] ? a : b);
+    return coords.sort((a, b) => xyArrayToIndex(a, cols) - xyArrayToIndex(b, cols)).reverse();
+}
+
+function coordsReverseX(coords: Array<any>): Array<any> {
+    const input = coords.map(item => Array.from(item));
+    const xReverse = input.map(item => item[0]).reverse();
+    return input.map((item, index) => {
+        item[0] = xReverse[index];
+        return item;
+    })
 }
